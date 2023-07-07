@@ -13,7 +13,7 @@ int ledpin[3] = {3, 4, 5};
 const int drowntime = 3000; //in ms
 
 float readdirtwet(int pin) {
-  return map(analogRead(pin), 0, 1023, 0, 100);
+  return map(map(analogRead(pin), 0, 1023, 0, 100),0,63,0,100);
 }
 void controlpump(bool state) {
   if (state == true) {
@@ -53,17 +53,16 @@ void loop() {
     float temp = dht.readTemperature();
     float hum =  dht.readHumidity();
     Serial.print("Dirt wet: ");
-    Serial.println(dirtwet);
-    Serial.print("Temperature: ");
-    Serial.println(temp);
-    Serial.print("Humidity: ");
+    Serial.print(dirtwet);
+    Serial.print(" Temperature: ");
+    Serial.print(temp);
+    Serial.print(" Humidity: ");
     Serial.println(hum);
-    Serial.println("================================");
  
   if (dirtwet <= threshold) {
     controlpump(true);
     delay(drowntime);
     controlpump(false);
   }
-  delay(1);
+  delay(16.67);
 }
